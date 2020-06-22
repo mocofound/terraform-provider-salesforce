@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 
+	"github.com/mocofound/terraform-provider-salesforce/salesforce"
+
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -128,7 +130,7 @@ func userToResourceData(user *UserSObject, d *schema.ResourceData) error {
 }
 
 func userCreate(d *schema.ResourceData, m interface{}) error {
-	client := m.(main.Client).SObjectApi
+	client := m.(salesforce.Client).SObjectApi
 	if userId, exists := d.GetOk("user_id"); exists && len(userId.(string)) > 0 {
 		return nil
 	}
@@ -189,7 +191,7 @@ func userUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func userDelete(d *schema.ResourceData, m interface{}) error {
-	client := m.(Client).SObjectApi
+	client := m.(salesforce.Client).SObjectApi
 	userId, exists := d.GetOk("user_id")
 	if !exists || len(userId.(string)) == 0 {
 		return fmt.Errorf("user_id is unset")
