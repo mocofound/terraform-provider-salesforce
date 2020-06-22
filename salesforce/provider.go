@@ -1,4 +1,5 @@
-package salesforceProvider
+package salesforce
+
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
