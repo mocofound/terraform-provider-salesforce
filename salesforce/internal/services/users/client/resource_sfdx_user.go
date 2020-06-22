@@ -1,9 +1,10 @@
-package main
+package users
 
 import (
 	"fmt"
 
 	"github.com/mocofound/terraform-provider-salesforce/salesforce"
+	"github.com/mocofound/terraform-provider-salesforce/salesforce/internal/clients"
 
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -149,7 +150,7 @@ func userCreate(d *schema.ResourceData, m interface{}) error {
 }
 
 func userRead(d *schema.ResourceData, m interface{}) error {
-	client := m.(salesforce.Client).SObjectApi
+	client := m.(*clients.Client).SObjectApi
 	userId, exists := d.GetOk("user_id")
 	if !exists || len(userId.(string)) == 0 {
 		return fmt.Errorf("user_id is unset")
