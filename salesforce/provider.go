@@ -1,6 +1,5 @@
 package salesforce
 
-
 import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -50,13 +49,24 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"sfdx_user":              resource.User(),
+			"sfdx_user": User(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"sfdx_org": resource.Org(),
+			//"sfdx_org": Org(),
 		},
 		ConfigureFunc: providerConfigure,
 	}
+}
+
+type Config struct {
+	APIVersion    string
+	ClientId      string
+	ClientSecret  string
+	Username      string
+	Password      string
+	SecurityToken string
+	Environment   string
+	TraceOn       bool
 }
 
 func providerConfigure(d *schema.ResourceData) (interface{}, error) {
@@ -70,5 +80,5 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 		Environment:   d.Get("environment").(string),
 		TraceOn:       d.Get("trace_on").(bool),
 	}
-	return config.Client()
+	return &config, nil
 }

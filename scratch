@@ -1,3 +1,7 @@
 
 #Get all dependencies for go
 go get
+
+#cannot find package "github.com/hashicorp/hcl/v2"
+https://github.com/hashicorp/hcl/issues/371
+go mod init

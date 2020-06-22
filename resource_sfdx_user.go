@@ -1,13 +1,13 @@
-package resource
+package main
 
 import (
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/mocofound/terraform-provider-salesforce/salesforce"
 	"fmt"
+
+	"github.com/hashicorp/terraform/helper/schema"
 )
 
 const (
-	UserApiName               = "User"
+	UserAPIName               = "User"
 	UserDefaultProfile        = "00ef2000001fVFK"
 	UserDefaultRole           = ""
 	UserDefaultTimeZone       = "America/Los_Angeles"
@@ -49,11 +49,11 @@ type UserSObject struct {
 }
 
 func (uso *UserSObject) ApiName() string {
-	return UserApiName
+	return UserAPIName
 }
 
 func (uso *UserSObject) ExternalIdApiName() string {
-	return UserApiName
+	return UserAPIName
 }
 
 func User() *schema.Resource {
@@ -128,7 +128,7 @@ func userToResourceData(user *UserSObject, d *schema.ResourceData) error {
 }
 
 func userCreate(d *schema.ResourceData, m interface{}) error {
-	client := m.(salesforce.Client).SObjectApi
+	client := m.(main.Client).SObjectApi
 	if userId, exists := d.GetOk("user_id"); exists && len(userId.(string)) > 0 {
 		return nil
 	}
@@ -189,7 +189,7 @@ func userUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func userDelete(d *schema.ResourceData, m interface{}) error {
-	client := m.(salesforce.Client).SObjectApi
+	client := m.(Client).SObjectApi
 	userId, exists := d.GetOk("user_id")
 	if !exists || len(userId.(string)) == 0 {
 		return fmt.Errorf("user_id is unset")
